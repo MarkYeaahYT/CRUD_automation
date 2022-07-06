@@ -1,0 +1,204 @@
+<?php
+
+namespace App\Satuan;
+
+use App\SIMPPD;
+use Gi\Database;
+
+class SatuanController extends SIMPPD
+{
+
+    public function __construct()
+    {
+        $this->db = new Database();
+        $this->middleware(\Middleware\Auth::class);
+    }
+
+    public function getIndex()
+    {
+        $this->breadcrumb('Master Satuan');
+        return view('index');
+    }
+
+
+    public function getAjaxtable()
+    {
+        $sql_count = $sql_count_filtered = "
+	    	select 
+	    		count(*)
+	    	from master.satuan ms";
+
+
+	    $sql = "select * 
+	    		from master.satuan ms";
+
+        if ($search = get('search') and $search['value'] != '') {
+
+            $like = strtolower("%$search[value]%");
+        
+            $search_sql = " where (
+                lower(ms.urai_satuan::text) like '$like'
+            )";
+            
+            $sql .= $search_sql;
+            $sql_count .= $search_sql;
+        }
+
+        // ini mengurutkan
+        $order = get('order');
+        $column = [
+            // array mulai dari 1, soalnya ke 0 ga bisa buat ngurutkan, soalnya di table view, key 0 diisi nomer urut, bukan id squen
+            1 => 'ms.urai_satuan',
+        ];
+        $order_by_column = $column[$order[0]['column']];
+        $order_by_direction = $order[0]['dir'];
+
+        $sql .= " order by $order_by_column $order_by_direction";
+
+        if((int)get('length') != -1){
+            $sql .= " offset " . (int)get('start') . " limit " . (int)get('length');
+        }
+
+        $no = get('start');
+
+        $data = db()->raw($sql, function($items) use (&$no){
+            $no++;
+
+            return [
+                'nomor' => $no,
+                'id_satuan' => $items['id_satuan'],
+                'urai_satuan' => $items['urai_satuan']
+            ];
+        });
+
+        return [
+            'draw' => get('draw'),
+            'recordsTotal' => db()->raw($sql_count_filtered)[0]['count'],
+            'recordsFiltered' => db()->raw($sql_count)[0]['count'],
+            'data' => $data->toArray()
+        ];
+    }
+
+    public function postTambah()
+    {
+        $rules = [
+            'urai_satuan' => 'required',
+        ];
+    
+        $rules = post_rules($rules);
+        $post = $rules->data;
+        $errors = $rules->errors;
+    
+        if (!empty($errors)) {
+    
+            return [
+                'status' => 'error',
+                'errors' => $errors
+            ];
+        }
+    
+        $data_insert = [
+            'urai_satuan' => $post['urai_satuan'], 
+        ];
+    
+        $insert = table('master.satuan')->insert($data_insert);
+    
+        if($insert->run()){
+                
+            return [
+                'status' => 'success',
+                'toast' => 'Data Berhasil disimpan'
+            ];
+        }else{
+                
+            return [
+                'status' => 'error',
+                'toast' => 'Data Gagal disimpan'
+            ];
+        }
+    
+    }
+
+    public function postEdit()
+    {
+        $rules = [
+            'id_satuan' => 'required',
+            'edit_urai_satuan' => 'required',
+        ];
+
+        $rules = post_rules($rules);
+        $post = $rules->data;
+        $errors = $rules->errors;
+
+        if (!empty($errors)) {
+
+            return [
+                'status' => 'error',
+                'errors' => $errors
+            ];
+        }
+
+        $data_where = [
+            'id_satuan' => $post['id_satuan']
+        ];
+
+        $data_update = [
+            'urai_satuan' => $post['edit_urai_satuan'],
+        ];
+
+        $hapus = table('master.satuan')->where($data_where)->update($data_update);
+
+        if($hapus->run()){
+
+            return [
+                'status' => 'success',
+                'toast' => 'Data Berhasil diupdate'
+            ];
+        }else{
+
+            return [
+                'status' => 'error',
+                'toast' => 'Data Gagal diupdate'
+            ];
+        }
+    }
+
+    public function postHapus()
+    {
+        $rules = [
+            'id_satuan' => 'required',
+        ];
+
+        $rules = post_rules($rules);
+        $post = $rules->data;
+        $errors = $rules->errors;
+
+        if (!empty($errors)) {
+
+            return [
+                'status' => 'error',
+                'errors' => $errors
+            ];
+        }
+
+        $data_where = [
+            'id_satuan' => $post['id_satuan']
+        ];
+
+        $hapus = table('master.satuan')->where($data_where)->delete();
+
+        if($hapus->run()){
+
+            return [
+                'status' => 'success',
+                'toast' => 'Data Berhasil dihapus'
+            ];
+        }else{
+
+            return [
+                'status' => 'error',
+                'toast' => 'Data Gagal dihapus'
+            ];
+        }
+    }
+}

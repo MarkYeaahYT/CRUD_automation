@@ -1,0 +1,56 @@
+public function getAjaxtable()
+    {
+        $sql_count = $sql_count_filtered = "
+	    	select 
+	    		count(*)
+	    	from {{TABLE_NAME}} {{SHORT_TABLE_NAME}}";
+
+
+	    $sql = "select * 
+	    		from {{TABLE_NAME}} {{SHORT_TABLE_NAME}}";
+
+        if ($search = get('search') and $search['value'] != '') {
+
+            $like = strtolower("%$search[value]%");
+        
+            $search_sql = " where (
+                {{SEARCHABLE_COLUMNN}}
+            )";
+            
+            $sql .= $search_sql;
+            $sql_count .= $search_sql;
+        }
+
+        // ini mengurutkan
+        $order = get('order');
+        $column = [
+            // array mulai dari 1, soalnya ke 0 ga bisa buat ngurutkan, soalnya di table view, key 0 diisi nomer urut, bukan id squen
+            {{ORDER_COLUMN}}
+        ];
+        $order_by_column = $column[$order[0]['column']];
+        $order_by_direction = $order[0]['dir'];
+
+        $sql .= " order by $order_by_column $order_by_direction";
+
+        if((int)get('length') != -1){
+            $sql .= " offset " . (int)get('start') . " limit " . (int)get('length');
+        }
+
+        $no = get('start');
+
+        $data = db()->raw($sql, function($items) use (&$no){
+            $no++;
+
+            return [
+                'nomor' => $no,
+                {{DATA_RETURN}}
+            ];
+        });
+
+        return [
+            'draw' => get('draw'),
+            'recordsTotal' => db()->raw($sql_count_filtered)[0]['count'],
+            'recordsFiltered' => db()->raw($sql_count)[0]['count'],
+            'data' => $data->toArray()
+        ];
+    }

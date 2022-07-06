@@ -1,0 +1,4 @@
+<div class="form-group">
+    <label for="">{{COLUMN}}</label>
+    <input type="text" name="edit_{{COLUMN}}" class="form-control" placeholder="Masukan {{COLUMN}}" required>
+</div>

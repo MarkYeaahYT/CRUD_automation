@@ -1,0 +1,31 @@
+<?php
+
+namespace App\{{NAMESPACE}};
+
+use App\SIMPPD;
+use Gi\Database;
+
+class {{CONTROLLER}}Controller extends SIMPPD
+{
+
+    public function __construct()
+    {
+        $this->db = new Database();
+        $this->middleware(\Middleware\Auth::class);
+    }
+
+    public function getIndex()
+    {
+        $this->breadcrumb('{{BREADCRUMB}}');
+        return view('index');
+    }
+
+
+    {{AJAXTABLE}}
+
+    {{POST_TAMBAH}}
+
+    {{POST_EDIT}}
+
+    {{POST_HAPUS}}
+}

@@ -1,0 +1,39 @@
+public function postTambah()
+    {
+        $rules = [
+            {{RULES}}
+        ];
+        
+        $rules = post_rules($rules);
+        $post = $rules->data;
+        $errors = $rules->errors;
+        
+        if (!empty($errors)) {
+        
+            return [
+                'status' => 'error',
+                'errors' => $errors
+            ];
+        }
+        
+        $data_insert = [
+            {{DATA_INSERT}}
+        ];
+        
+        $insert = table('{{TABLE_NAME}}')->insert($data_insert);
+        
+        if($insert->run()){
+                    
+            return [
+                'status' => 'success',
+                'toast' => 'Data Berhasil disimpan'
+            ];
+        }else{
+                    
+            return [
+                'status' => 'error',
+                'toast' => 'Data Gagal disimpan'
+            ];
+        }
+        
+    }

@@ -1,0 +1,42 @@
+public function postEdit()
+    {
+        $rules = [
+            {{RULES}}
+        ];
+
+        $rules = post_rules($rules);
+        $post = $rules->data;
+        $errors = $rules->errors;
+
+        if (!empty($errors)) {
+
+            return [
+                'status' => 'error',
+                'errors' => $errors
+            ];
+        }
+
+        $data_where = [
+            {{DATA_WHERE}}
+        ];
+
+        $data_update = [
+            {{DATA_UPDATE}}
+        ];
+
+        $hapus = table('{{TABLE_NAME}}')->where($data_where)->update($data_update);
+
+        if($hapus->run()){
+
+            return [
+                'status' => 'success',
+                'toast' => 'Data Berhasil diupdate'
+            ];
+        }else{
+
+            return [
+                'status' => 'error',
+                'toast' => 'Data Gagal diupdate'
+            ];
+        }
+    }
