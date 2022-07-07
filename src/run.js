@@ -3,7 +3,7 @@ const controller = require('./controller')
 const views = require('./views')
 const script = require('./script')
 
-fs.readFile('controller.json', 'utf8', (err, data) => {
+fs.readFile('data.json', 'utf8', (err, data) => {
 	if (err) {
 		console.error(err);
         return;

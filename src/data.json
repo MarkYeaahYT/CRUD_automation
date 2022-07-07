@@ -1,0 +1,54 @@
+{
+    "namespace": "Automate",
+    "controller": "Automate",
+    "breadcrumb": "Master Automate",
+    "table": "master.automate",
+    "short_table": "ma",
+    "method": {
+        "ajaxtable":{
+            "searchable_column":[
+                "id_automate",
+                "urai_automate"
+            ],
+            "order_column":{
+                "1": "urai_automate"
+            },
+            "data_return":[
+                "id_automate",
+                "urai_automate"
+            ],
+            "data_showing":[
+                "urai_automate"
+
+            ],
+            "primary_key": "id_automate"
+        },
+        "tambah":{
+            "rules":[
+                "urai_automate"
+            ]
+        },
+        "edit": {
+            "rules":[
+                "id_automate",
+                "urai_automate"
+            ],
+            "where":[
+                "id_automate"
+            ],
+            "update":[
+                "urai_automate"
+
+            ]
+        },
+        "hapus": {
+            "rules":[
+                "id_automate"
+            ],
+            "where":[
+                "id_automate"
+            ]
+        }
+            
+    }
+}

@@ -84,7 +84,7 @@ table = $(`#table`).DataTable({
                 /* Event listener, ketika form disubmit, data 'id_urai' akan ditambahkan ke formdata ajax */
                 $('form#form_edit').off('xform-submit').on('xform-submit', function(_ ,_data){
                     _data.push({
-                        name: '{{PRIMARY_KEY}}',
+                        name: 'edit_{{PRIMARY_KEY}}',
                         value: data['{{PRIMARY_KEY}}']
                     })
                 })
