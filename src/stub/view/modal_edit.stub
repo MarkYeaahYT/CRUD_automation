@@ -1,6 +1,6 @@
 <div class="modal fade" id="modal_edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
-        <form class="xform" action="{{url('app/{{CONTROLLER}}/edit')}}" method="post" id="form_edit">
+        <form class="xform" action="{{url('app/{{CONTROLLER_URL}}/edit')}}" method="post" id="form_edit">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Edit {{CONTROLLER}}</h5>
@@ -9,7 +9,12 @@
                     </button>
                 </div>
                 <div class="modal-body">
+
+                    <!-- Form Group -->
                     {{MODAL_EDIT_COMPONENT}}
+                    
+                    <!-- Form Group -->
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>

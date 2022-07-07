@@ -123,15 +123,15 @@
 		this.script = this.script.toString()
 		
 		this.method.edit.rules.forEach(element => {
-			rules += `'${element}' => 'required',\n\t\t\t`
+			rules += `'edit_${element}' => 'required',\n\t\t\t`
 		});
 		
 		this.method.edit.where.forEach(element => {
-			data_where += `'${element}' => $post['${element}'],\n\t\t\t`
+			data_where += `'${element}' => $post['edit_${element}'],\n\t\t\t`
 		});
 		
 		this.method.edit.update.forEach(element => {
-			data_update += `'${element}' => $post['${element}'],\n\t\t\t`
+			data_update += `'${element}' => $post['edit_${element}'],\n\t\t\t`
 		});
 		
 		this.script = this.script.replace('{{RULES}}', rules)
@@ -202,8 +202,6 @@
 		.set_post_edit()
 		.set_post_hapus()
 
-		this.fs.mkdirSync(`../export/${this.namespace}`, { recursive: true })
-		this.fs.mkdirSync(`../export/${this.namespace}/view`, { recursive: true })
 
 		this.fs.writeFile(`../export/${this.namespace}/${this.controller}Controller.php`, this.class_stub, err => {
 			if (err) {

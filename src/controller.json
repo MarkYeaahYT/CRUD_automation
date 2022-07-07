@@ -17,7 +17,14 @@
             "data_return":[
                 "id_satuan",
                 "urai_satuan"
-            ]
+            ],
+            "data_showing":[
+                "urai_satuan",
+                "column_a",
+                "column_b"
+
+            ],
+            "primary_key": "id_satuan"
         },
         "tambah":{
             "rules":[

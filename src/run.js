@@ -1,6 +1,7 @@
 const fs = require('fs');
 const controller = require('./controller')
 const views = require('./views')
+const script = require('./script')
 
 fs.readFile('controller.json', 'utf8', (err, data) => {
 	if (err) {
@@ -8,13 +9,19 @@ fs.readFile('controller.json', 'utf8', (err, data) => {
         return;
     }
 
-	let cont = new controller(JSON.parse(data))
-	let view = new views(JSON.parse(data))
+    data = JSON.parse(data)
+
+    fs.mkdirSync(`../export/${data.namespace}`, { recursive: true })
+	fs.mkdirSync(`../export/${data.namespace}/view`, { recursive: true })
+
+	let cont = new controller(data)
+	let view = new views(data)
+	let sc = new script(data)
 	
     cont.exportbois()
-    // cont.debug()
     view.exportbois()
+    sc.exportbois()
 
-	console.log('Well Done..🚀')
+	// console.log('Well Done..🚀')
 
 });

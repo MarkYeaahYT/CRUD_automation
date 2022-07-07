@@ -33,7 +33,7 @@ class views{
         this.method.tambah.rules.forEach(element => {
             modal_tambah_component += `
                     <div class="form-group">
-                        <label for="${element}">Urai ${element}</label>
+                        <label for="${element}">${element}</label>
                         <input type="text" name="${element}" class="form-control" placeholder="Masukan ${element}" required>
                     </div>`
         });
@@ -56,18 +56,19 @@ class views{
 
     set_modal_edit(){
 
-        let modal_tambah_component  = ``
+        let modal_edit_component  = ``
 
         this.method.tambah.rules.forEach(element => {
-            modal_tambah_component += `
+            modal_edit_component += `
                     <div class="form-group">
-                        <label for="${element}">Urai ${element}</label>
-                        <input type="text" name="${element}" class="form-control" placeholder="Masukan ${element}" required>
+                        <label for="edit_${element}">${element}</label>
+                        <input type="text" name="edit_${element}" class="form-control" placeholder="Masukan ${element}" required>
                     </div>`
         });
         
-        this.modal_tambah_stub = this.modal_tambah_stub.replaceAll('{{CONTROLLER}}', this.controller)
-        this.modal_tambah_stub = this.modal_tambah_stub.replace('{{MODAL_TAMBAH_COMPONENT}}', modal_tambah_component)
+        this.modal_edit_stub = this.modal_edit_stub.replace('{{CONTROLLER_URL}}', this.controller.toLowerCase())
+        this.modal_edit_stub = this.modal_edit_stub.replace('{{CONTROLLER}}', this.controller)
+        this.modal_edit_stub = this.modal_edit_stub.replace('{{MODAL_EDIT_COMPONENT}}', modal_edit_component)
 
         this.clean_script()
         
@@ -83,6 +84,25 @@ class views{
     
     set_modal_detail(){
         
+        let modal_detail_component  = ``
+
+        this.method.tambah.rules.forEach(element => {
+            modal_detail_component += `
+                <div class="row">
+                    <div class="col-md-3 text-right">
+                        ${element} :
+                    </div>
+                    <div class="col-md-9">
+                        <h5 id="view_${element}"></h5>
+                    </div>
+                </div>`
+        });
+        
+        this.modal_detail_stub = this.modal_detail_stub.replace('{{CONTROLLER}}', this.controller)
+        this.modal_detail_stub = this.modal_detail_stub.replace('{{MODAL_DETAIL_COMPONENT}}', modal_detail_component)
+
+        this.clean_script()
+
         this.fs.writeFile(`../export/${this.namespace}/view/modal_detail.php`, this.modal_detail_stub, err => {
             if (err) {
               console.error(err);

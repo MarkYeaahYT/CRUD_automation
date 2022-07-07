@@ -1,0 +1,155 @@
+table = $(`#table`).DataTable({
+        language: {
+            "emptyTable": "Tidak ada data yang tersedia pada tabel ini",
+            "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
+            "infoEmpty": "Menampilkan 0 sampai 0 dari 0 entri",
+            "infoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
+            "lengthMenu": "Tampilkan _MENU_ entri",
+            "loadingRecords": "Sedang memuat...",
+            "processing": "Sedang memproses...",
+            "search": "Cari:",
+            "zeroRecords": "Tidak ditemukan data yang sesuai",
+            "searchPlaceholder": "..."
+        },
+        responsive: true,
+        searching: true,
+        autoWidth: false,
+        processing: true,
+        serverSide: true,
+        ordering: true,
+        order: [1, 'asc'],
+        aLengthMenu: [
+            [5, 10, 25, 50, 100, 250, 500,  -1],
+            [5, 10, 25, 50, 100, 250, 500, "All"]
+        ],
+        pageLength: 25,
+        ajax: {
+            url: `{{url('app/{{CONTROLLER_URL}}/ajaxtable')}}`,
+        },
+        drawCallback: function(settings){
+
+            /**
+             * 
+             */
+            $('#table tbody .hapus').off('click').on('click', function () {
+
+                let data = table.row($(this).parents('tr')).data()
+
+                Swal.fire({
+                    title: 'Konfirmasi',
+                    text: "Yakin akan menghapus data?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Ya!'
+                }).then((result) => {
+
+                    if (result.value) {
+                        $.ajax({
+                            type: "post",
+                            url: `{{url('app/{{CONTROLLER_URL}}/hapus')}}`,
+                            data: {
+                                {{DATA_WHERE}}
+                            },
+                            dataType: "JSON",
+                            success: function (response) {
+
+                                table.ajax.reload()
+                                    
+                                Swal.fire(
+                                    'Success',
+                                    'Data berhasil dihapus!',
+                                    'info'
+                                )
+                            }
+                        });
+
+                    }
+                })
+            });
+
+            /**
+             * 
+             */
+            $('#table tbody .edit').off('click').on('click', function () {
+
+                let data = table.row($(this).parents('tr')).data()
+
+                $.each(data, function (key, value) { 
+                    
+                    $(`input[name=edit_${key}]`).val(value);
+                });
+
+                /* Event listener, ketika form disubmit, data 'id_urai' akan ditambahkan ke formdata ajax */
+                $('form#form_edit').off('xform-submit').on('xform-submit', function(_ ,_data){
+                    _data.push({
+                        name: '{{PRIMARY_KEY}}',
+                        value: data['{{PRIMARY_KEY}}']
+                    })
+                })
+
+                $('form#form_edit').off('xform-success').on('xform-success', function(){
+            
+                    table.ajax.reload()
+                    $('div#modal_edit').modal('hide');
+                })
+
+                $('div#modal_edit').modal('show')
+            });
+            
+            /**
+             * 
+             */
+            $('#table tbody #detail').off('click').on('click', function () {
+
+                let data = table.row($(this).parents('tr')).data()
+
+                $('div#modal_detail').modal('show')
+            });
+        },
+        columns: [
+            { 
+                data: "nomor",
+                orderable: false,
+                class: 'text-center',
+                width: "5%"
+            },
+            {{DATA_SHOWING}}
+            { 
+                orderable: false,
+                class: 'text-center',
+                width: "15%",
+                render: function(data, type, row){
+                    return `<div class="btn-group" style="user-select: auto;">
+                                <button type="button" class="btn btn-sm btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="user-select: auto;">
+                                    <i class="ti-menu-alt" style="user-select: auto;"></i> 
+                                </button>
+                                <div class="dropdown-menu" style="user-select: auto;">
+                                    <button class="btn btn-sm btn-warning dropdown-item edit" style="user-select: auto;">
+                                        <i class="fa fa-edit" style="user-select: auto;"></i> Ubah
+                                    </button> 
+                                    <button class="btn btn-sm btn-danger dropdown-item hapus" style="user-select: auto;">
+                                            <i class="fa fa-trash" style="user-select: auto;"></i> Hapus
+                                    </button>
+                                </div>
+                            </div>`;
+                }
+            }
+        ]
+    });
+
+    /* Using the draw event to add the tooltip to the table. */
+    table.on('draw', function(){
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+    
+    $('button#tambah').on('click', function () {
+        $('div#modal').modal('show')
+    });
+
+    $('form#form_tambah').off('xform-success').on('xform-success', function(){
+            
+        table.ajax.reload()
+        $('div#modal').modal('hide');
+    })
