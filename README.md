@@ -9,4 +9,4 @@ create full crud page with node js
 - result on folder `export/`
 
 may you ask. Why I created this program🤔
-> Time is money dammit😂
+> Time is money right😂
