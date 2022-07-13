@@ -1,0 +1,11 @@
+<?php
+
+return [
+  'navbar_aside' => [
+    "name" => "{{INITIAL_NAME}}",
+    "title" => "{{INITIAL_TITLE}}",
+    "icon" => "check-circle",
+    "auth" => "root,admin",
+    "route" => "app/{{URL}}/index"
+  ]
+];

@@ -19,8 +19,30 @@
 
 		this.script = ``
 		this.class_stub = this.fs.readFileSync('stub/components/Class.stub').toString()
+		this.initial_stub = this.fs.readFileSync('stub/initial.stub').toString()
 
     }
+
+	set_initial_name(){
+
+		this.initial_stub = this.initial_stub.replace('{{INITIAL_NAME}}', this.namespace.toLowerCase())
+		
+		return this
+	}
+	
+	set_initial_title(){
+		
+		this.initial_stub = this.initial_stub.replace('{{INITIAL_TITLE}}', this.breadcrumb)
+
+		return this
+	}
+	
+	set_initial_url(){
+		
+		this.initial_stub = this.initial_stub.replace('{{URL}}', this.controller.toLowerCase())
+
+		return this
+	}
 
 	set_namespace(){
 
@@ -194,7 +216,10 @@
 
 	exportbois(){
 
-		this.set_namespace()
+		this.set_initial_name()
+		.set_initial_title()
+		.set_initial_url()
+		.set_namespace()
 		.set_breadcrumb()
 		.set_controller()
 		.set_ajaxtable()
@@ -203,6 +228,14 @@
 		.set_post_hapus()
 
 
+		this.fs.writeFile(`../export/${this.namespace}/initial.php`, this.initial_stub, err => {
+			if (err) {
+			  console.error(err);
+			}
+			this.clean_script()
+			console.log('Generating initial script.. 🐣')
+		});
+		
 		this.fs.writeFile(`../export/${this.namespace}/${this.controller}Controller.php`, this.class_stub, err => {
 			if (err) {
 			  console.error(err);
