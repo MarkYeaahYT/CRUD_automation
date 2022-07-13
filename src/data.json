@@ -1,52 +1,156 @@
 {
-    "namespace": "Automate",
-    "controller": "Automate",
-    "breadcrumb": "Master Automate",
-    "table": "master.automate",
-    "short_table": "ma",
+    "namespace": "Verifikasipenghapusan",
+    "controller": "Verifikasipenghapusan",
+    "breadcrumb": "Verifikasi Penghapusan",
+    "table": "murni.barang_hapus",
+    "short_table": "mb",
     "method": {
         "ajaxtable":{
             "searchable_column":[
-                "id_automate",
-                "urai_automate"
+                "no_register",
+                "urai",
+                "satuan",
+                "ket_produk",
+                "lokasi",
+                "tahun_perolehan",
+                "usulan_jumlah",
+                "harga_satuan",
+                "keterangan",
+                "kodekuasapengguna",
+                "kondisi",
+                "cara_hapus",
+                "nilai_buku",
+                "is_kelurahan",
+                "status_barang",
+                "kodeuptd"
             ],
             "order_column":{
-                "1": "urai_automate"
+                "1": "no_register",
+                "2": "urai",
+                "3": "satuan",
+                "4": "ket_produk",
+                "5": "lokasi",
+                "6": "tahun_perolehan",
+                "7": "usulan_jumlah",
+                "8": "harga_satuan",
+                "9": "keterangan",
+                "10": "kodekuasapengguna",
+                "11": "kondisi",
+                "12": "cara_hapus",
+                "13": "nilai_buku",
+                "14": "is_kelurahan",
+                "15": "status_barang",
+                "16": "kodeuptd"
             },
             "data_return":[
-                "id_automate",
-                "urai_automate"
+                "tahun",
+                "kodeskpd",
+                "kodebarang",
+                "koderegister",
+                "no_register",
+                "urai",
+                "satuan",
+                "ket_produk",
+                "lokasi",
+                "tahun_perolehan",
+                "usulan_jumlah",
+                "harga_satuan",
+                "keterangan",
+                "kodekuasapengguna",
+                "kondisi",
+                "cara_hapus",
+                "nilai_buku",
+                "is_kelurahan",
+                "status_barang",
+                "kodeuptd"
             ],
             "data_showing":[
-                "urai_automate"
-
+                "no_register",
+                "urai",
+                "satuan",
+                "ket_produk",
+                "lokasi",
+                "tahun_perolehan",
+                "usulan_jumlah",
+                "harga_satuan",
+                "keterangan",
+                "kodekuasapengguna",
+                "kondisi",
+                "cara_hapus",
+                "nilai_buku",
+                "is_kelurahan",
+                "status_barang",
+                "kodeuptd"
             ],
-            "primary_key": "id_automate"
+            "primary_key": "tahun"
         },
         "tambah":{
             "rules":[
-                "urai_automate"
+                "no_register",
+                "urai",
+                "satuan",
+                "ket_produk",
+                "lokasi",
+                "tahun_perolehan",
+                "usulan_jumlah",
+                "harga_satuan",
+                "keterangan",
+                "kodekuasapengguna",
+                "kondisi",
+                "cara_hapus",
+                "nilai_buku",
+                "is_kelurahan",
+                "status_barang",
+                "kodeuptd"
             ]
         },
         "edit": {
             "rules":[
-                "id_automate",
-                "urai_automate"
+                "no_register",
+                "urai",
+                "satuan",
+                "ket_produk",
+                "lokasi",
+                "tahun_perolehan",
+                "usulan_jumlah",
+                "harga_satuan",
+                "keterangan",
+                "kodekuasapengguna",
+                "kondisi",
+                "cara_hapus",
+                "nilai_buku",
+                "is_kelurahan",
+                "status_barang",
+                "kodeuptd"
             ],
             "where":[
-                "id_automate"
+                "tahun"
             ],
             "update":[
-                "urai_automate"
-
+                "no_register",
+                "urai",
+                "satuan",
+                "ket_produk",
+                "lokasi",
+                "tahun_perolehan",
+                "usulan_jumlah",
+                "harga_satuan",
+                "keterangan",
+                "kodekuasapengguna",
+                "kondisi",
+                "cara_hapus",
+                "nilai_buku",
+                "is_kelurahan",
+                "status_barang",
+                "kodeuptd"
             ]
         },
         "hapus": {
             "rules":[
-                "id_automate"
+                "tahun"
             ],
             "where":[
-                "id_automate"
+                "tahun"
             ]
         }
             

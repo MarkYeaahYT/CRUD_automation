@@ -64,7 +64,7 @@ class script{
             {
                 data: "${element}",
             },`;
-            data_showing += `<th>${element}</th>\n\t\t\t\t\t\t\t\t\t`
+            data_showing += `<th>${element}</th>\n\t\t\t\t\t\t\t\t`
 		});
         
         this.script_stub = this.script_stub.replace('{{DATA_SHOWING}}', this.script)
