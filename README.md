@@ -1,3 +1,4 @@
+[![Node.js Package](https://github.com/MarkYeaahYT/CRUD_automation/actions/workflows/npm-publish.yml/badge.svg)](https://github.com/MarkYeaahYT/CRUD_automation/actions/workflows/npm-publish.yml)
 # CRUD_automation
 
 create full crud page with node js
