@@ -4,7 +4,6 @@
   "description": "create crud master easily",
   "main": "run.js",
   "scripts": {
-    "test": "cd src && node run.js",
     "dev": "cd src && node run.js",
     "build": "cd src && node run.js"
   },
