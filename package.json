@@ -4,10 +4,23 @@
   "description": "create crud master easily",
   "main": "run.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "cd src && node run.js",
+    "dev": "cd src && node run.js",
+    "build": "cd src && node run.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MarkYeaahYT/CRUD_automation.git"
+  },
+  "keywords": [
+    "create master web app crud easyly"
+  ],
   "author": "arifdian0384@gmail.com",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MarkYeaahYT/CRUD_automation/issues"
+  },
+  "homepage": "https://github.com/MarkYeaahYT/CRUD_automation#readme",
   "dependencies": {
     "fs": "^0.0.1-security"
   }
