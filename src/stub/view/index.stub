@@ -7,7 +7,7 @@
             <li class="list-group-item active bg-success border-success bg-header-apik" aria-current="true">
                 <div class="row">
 					<div class="col-10">
-						<span><i class="fas fa-table"></i> Data {{BREADCRUMB}}</span>
+						<span>Data {{BREADCRUMB}}</span>
 					</div>
 				</div>
             </li>
