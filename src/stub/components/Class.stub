@@ -10,8 +10,7 @@ class {{CONTROLLER}}Controller extends SIMPPD
 
     public function __construct()
     {
-        $this->db = new Database();
-        $this->middleware(\Middleware\Auth::class);
+        
     }
 
     public function getIndex()
