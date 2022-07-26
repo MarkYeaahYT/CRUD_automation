@@ -35,38 +35,7 @@ table = $(`#table`).DataTable({
 
                 let data = table.row($(this).parents('tr')).data()
 
-                Swal.fire({
-                    title: 'Konfirmasi',
-                    text: "Yakin akan menghapus data?",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Ya!'
-                }).then((result) => {
-
-                    if (result.value) {
-                        $.ajax({
-                            type: "post",
-                            url: `{{url('app/{{CONTROLLER_URL}}/hapus')}}`,
-                            data: {
-                                {{DATA_WHERE}}
-                            },
-                            dataType: "JSON",
-                            success: function (response) {
-
-                                table.ajax.reload()
-                                    
-                                Swal.fire(
-                                    'Success',
-                                    'Data berhasil dihapus!',
-                                    'info'
-                                )
-                            }
-                        });
-
-                    }
-                })
+                hapus(data)
             });
 
             /**
@@ -75,27 +44,8 @@ table = $(`#table`).DataTable({
             $('#table tbody .edit').off('click').on('click', function () {
 
                 let data = table.row($(this).parents('tr')).data()
-
-                $.each(data, function (key, value) { 
-                    
-                    $(`input[name=edit_${key}]`).val(value);
-                });
-
-                /* Event listener, ketika form disubmit, data 'id_urai' akan ditambahkan ke formdata ajax */
-                $('form#form_edit').off('xform-submit').on('xform-submit', function(_ ,_data){
-                    _data.push({
-                        name: 'edit_{{PRIMARY_KEY}}',
-                        value: data['{{PRIMARY_KEY}}']
-                    })
-                })
-
-                $('form#form_edit').off('xform-success').on('xform-success', function(){
-            
-                    table.ajax.reload()
-                    $('div#modal_edit').modal('hide');
-                })
-
-                $('div#modal_edit').modal('show')
+                
+                edit(data)
             });
             
             /**
@@ -105,7 +55,7 @@ table = $(`#table`).DataTable({
 
                 let data = table.row($(this).parents('tr')).data()
 
-                $('div#modal_detail').modal('show')
+                detail(data)
             });
         },
         columns: [
@@ -138,6 +88,71 @@ table = $(`#table`).DataTable({
             }
         ]
     });
+
+    const hapus = function(_rowdata){
+
+        Swal.fire({
+            title: 'Konfirmasi',
+            text: "Yakin akan menghapus data?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Ya!'
+        }).then((result) => {
+
+            if (result.value) {
+                $.ajax({
+                    type: "post",
+                    url: `{{url('app/{{CONTROLLER_URL}}/hapus')}}`,
+                    data: {
+                        {{DATA_WHERE}}
+                    },
+                    dataType: "JSON",
+                    success: function (response) {
+
+                        table.ajax.reload()
+                            
+                        Swal.fire(
+                            'Success',
+                            'Data berhasil dihapus!',
+                            'info'
+                        )
+                    }
+                });
+
+            }
+        })
+    }
+    
+    const edit = function(_rowdata){
+
+        $.each(_rowdata, function (key, value) { 
+                    
+            $(`input[name=edit_${key}]`).val(value);
+        });
+
+        /* Event listener, ketika form disubmit, data 'id_urai' akan ditambahkan ke formdata ajax */
+        $('form#form_edit').off('xform-submit').on('xform-submit', function(_ ,_data){
+            _data.push({
+                name: 'edit_{{PRIMARY_KEY}}',
+                value: _rowdata['{{PRIMARY_KEY}}']
+            })
+        })
+
+        $('form#form_edit').off('xform-success').on('xform-success', function(){
+    
+            table.ajax.reload()
+            $('div#modal_edit').modal('hide');
+        })
+
+        $('div#modal_edit').modal('show')
+    }
+    
+    const detail = function(_rowdata){
+
+        $('div#modal_detail').modal('show')
+    }
 
     /* Using the draw event to add the tooltip to the table. */
     table.on('draw', function(){

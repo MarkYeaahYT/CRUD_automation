@@ -32,7 +32,7 @@ class script{
     set_data_where(){
         
         this.method.hapus.where.forEach(element => {
-            this.script += `${element} : data['${element}'],\n\t\t\t`
+            this.script += `${element} : _rowdata['${element}'],\n\t\t\t`
 		});
         
         this.script_stub = this.script_stub.replace('{{DATA_WHERE}}', this.script)

@@ -1,4 +1,5 @@
 const fs = require('fs');
+const countapi = require('countapi-js')
 const controller = require('./controller')
 const views = require('./views')
 const script = require('./script')
@@ -21,6 +22,10 @@ fs.readFile('data.json', 'utf8', (err, data) => {
     cont.exportbois()
     view.exportbois()
     sc.exportbois()
+
+    countapi.hit('arifdians.com', 'crud_automation').then((result) => { 
+        console.log(`Yeaaay ${result.value} job automated so far.. 🎊`)
+    });
 
 	// console.log('Well Done..🚀')
 
